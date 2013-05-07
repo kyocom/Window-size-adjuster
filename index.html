@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<title>window size adjuster for screen shot</title>
+<meta name="robots" content="INDEX, FOLLOW" />
+<meta name="author" content="Kyo ICHIDA" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<style content="text/css">
+body{background:url(g100px.png); margin:0; overflow:hidden;}
+h1{color:#fff; margin:0 0 8px 0; text-shadow:2px 2px 3px #999;
+}
+div{position:absolute; z-index:1; left:-2px; top:-2px; border:1px dotted black; text-align:right;}
+#rec{border:1px dotted red; color:red;}
+div span{position:absolute; right:6px; bottom:4px; }
+form{position:absolute; z-index:9; left:25px; top:25px; padding:16px; background:rgba(128,128,128,0.4); -moz-border-radius:16px; -webkit-border-radius:16px; -o-border-radius:16px; -ms-border-radius:16px; border-radius:16px;-webkit-box-shadow:2px 3px 4px rgba(128,128,128,0.25); -moz-box-shadow:2px 3px 4px rgba(128,128,128,0.25); box-shadow:2px 3px 4px rgba(128,128,128,0.25);
+}
+.addthis_toolbox{position:fixed; left:6px; bottom:1px; z-index:1; width:450px;}
+</style>
+</head>
+
+<body>
+
+<div style="width:2048px;height:1536px;"><span>2048,1536</span></div>
+<div style="width:1366px;height:768px;"><span>1366,768</span></div>
+<div style="width:1280px;height:768px;"><span>1280,768</span></div>
+<div style="width:1200px;height:900px;"><span>1200,900</span></div>
+<div style="width:1024px;height:768px;"><span>1024,768</span></div>
+<div style="width:640px;height:960px;"><span>640,960</span></div>
+<div style="width:320px;height:480px;"><span>320,480</span></div>
+<div style="width:800px;height:600px;"><span>800,600</span></div>
+<div style="width:640px;height:480px;"><span>640,480</span></div>
+
+<form name="winsize" method="post">
+<h1>Window size adjuster for screen shot</h1>
+<p>This might be useful when you need to adjust the window size of browser to capture screen shot.</p>
+Width <input name="sw" type="text" size="10">, Height <input name="sh" type="text" size="10">&nbsp;<input type="submit" onClick="drawRec(this.form);return" value="Resize" /><br />
+
+Preset&nbsp;<select name="resize" onchange="changesize(value);">
+<script type="text/javascript">document.write('<option>' + document.documentElement.clientWidth + ',' + document.documentElement.clientHeight + '</option>');</script>
+<option>320,480</option>
+<option>500,500</option>
+<option>640,480</option>
+<option>640,960</option>
+<option>800,600</option>
+<option>1024,768</option>
+<option>1200,900</option>
+<option>1280,768</option>
+<option>1366,768</option>
+<option>2048,1536</option>
+</select> (Internet Explorer, Safari)
+
+</form>
+
+<script type="text/javascript">
+var sW,sH,mW = 0,mH = 0;
+mW = window.outerWidth - window.innerWidth;/* margin width */
+mH = window.outerHeight - window.innerHeight;/* margin height */
+
+document.write('<div id="rec" style="width:' + window.innerWidth + 'px;height:' + window.innerHeight + 'px;"><span>' + document.documentElement.clientWidth + ',' + document.documentElement.clientHeight + '</span></div>');
+
+window_size();
+window.onresize = window_size;
+
+function window_size(){
+	sW = document.documentElement.clientWidth;
+	sH = document.documentElement.clientHeight;
+	document.winsize.sw.value = sW;
+	document.winsize.sh.value = sH;
+}
+
+function drawRec(form){
+	window.resizeTo(parseInt(form.sw.value)+mW,parseInt(form.sh.value)+mH);
+}
+
+function sArray(TargetString){
+	var resArray = TargetString.split(",");
+	return(resArray);
+}
+
+function changesize(v){
+//	alert("v = " + v);
+//	s = "window.resizeTo(" + v + ")";
+//	parseInt(s);/* easy way */
+
+	window.resizeTo(parseInt(sArray(v)[0])+mW,parseInt(sArray(v)[1])+mH);
+}
+</script>
+</body>
+</html>
