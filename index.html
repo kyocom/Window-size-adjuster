@@ -2,19 +2,19 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<title>window size adjuster for screen shot</title>
+<title>window size adjuster</title>
 <meta name="robots" content="INDEX, FOLLOW" />
 <meta name="author" content="Kyo ICHIDA" />
+<meta name="viewport" content="width=device-width,initial-scale=1.0" />
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
-<meta name="viewport" content="width=device-width,initial-scale=1.0" />
 <style content="text/css">
 body{background:url(g100px.png); margin:0; overflow:hidden;}
 h1{color:#fff; margin:0 0 8px 0; text-shadow:2px 2px 3px #999;
 }
 div{position:absolute; z-index:1; left:-2px; top:-2px; border:1px dotted black; text-align:right;}
 #rec{border:1px dotted red; color:red;}
-div span{position:absolute; right:6px; bottom:4px; }
+div span{position:absolute; right:6px; bottom:4px; font-size:small; }
 form{position:absolute; z-index:9; left:0; top:0; margin:25px; padding:16px; background:rgba(128,128,128,0.4); -moz-border-radius:16px; -webkit-border-radius:16px; -o-border-radius:16px; -ms-border-radius:16px; border-radius:16px;-webkit-box-shadow:2px 3px 4px rgba(128,128,128,0.25); -moz-box-shadow:2px 3px 4px rgba(128,128,128,0.25); box-shadow:2px 3px 4px rgba(128,128,128,0.25);
 }
 .addthis_toolbox{position:fixed; left:6px; bottom:1px; z-index:1; width:450px;}
@@ -31,24 +31,33 @@ form{position:absolute; z-index:9; left:0; top:0; margin:25px; padding:16px; bac
 <div style="width:1280px;height:768px;"><span>WXGA 1280,768<br />&nbsp;</span></div>
 <div style="width:1280px;height:720px;"><span>HD 720p 1280,720</span></div>
 <div style="width:1200px;height:960px;"><span>QVGA 1200,960</span></div>
+<div style="width:768px;height:1024px;"><span>iPad 768,1024</span></div>
 <div style="width:1024px;height:768px;"><span>XGA 1024,768</span></div>
 <div style="width:640px;height:960px;"><span>DoubleVGA (iPhone vertical) 640,960</span></div>
 <div style="width:800px;height:600px;"><span>SVGA 800,600</span></div>
 <div style="width:640px;height:480px;"><span>VGA 640,480</span></div>
+<div style="width:736px;height:414px;"><span>iPhone6 Plus 736,414</span></div>
+<div style="width:667px;height:375px;"><span>iPhone6 667,375</span></div>
+<div style="width:320px;height:568px;"><span>iPhone5 320,568</span></div>
+<div style="width:320px;height:356px;"><span>iPhone3 Safari 320,356</span></div>
 <div style="width:320px;height:480px;"><span>HVGA (Half-VGA iPhone1, Android1 vertical) 320,480</span></div>
 
 <form name="winsize" method="post">
-<h1>Window size adjuster for screen shot</h1>
-<p>This might be useful when you need to adjust the window size of browser to capture screen shot.</p>
-Width <input name="sw" type="text" size="10">, Height <input name="sh" type="text" size="10">&nbsp;<input type="submit" onClick="drawRec(this.form);return" value="Resize" /><br />
+<h1>window size adjuster</h1>
+
+Width <input name="sw" type="text" size="10">, <button onClick="flipSize(this.form);return">&hArr;</button> Height <input name="sh" type="text" size="10">&nbsp;<input type="submit" onClick="drawRec(this.form);return" value="Resize" /><br />
 
 Preset&nbsp;<select name="resize" onchange="changesize(value);">
 <script type="text/javascript">document.write('<option>' + document.documentElement.clientWidth + ',' + document.documentElement.clientHeight + '</option>');</script>
-<option>320,480</option>
+<option>320,356</option>
+<option>480,320</option>
 <option>500,500</option>
+<option>568,320</option>
 <option>640,480</option>
-<option>640,960</option>
+<option>667,375</option>
+<option>736,414</option>
 <option>800,600</option>
+<option>960,640</option>
 <option>1024,768</option>
 <option>1200,960</option>
 <option>1280,720</option>
@@ -57,8 +66,7 @@ Preset&nbsp;<select name="resize" onchange="changesize(value);">
 <option>1600,1200</option>
 <option>1920,1080</option>
 <option>2048,1536</option>
-</select> (Internet Explorer, Safari)
-
+</select>
 </form>
 
 <script type="text/javascript">
@@ -80,6 +88,10 @@ function window_size(){
 
 function drawRec(form){
 	window.resizeTo(parseInt(form.sw.value)+mW,parseInt(form.sh.value)+mH);
+}
+
+function flipSize(form){
+	window.resizeTo(parseInt(form.sh.value)+mW,parseInt(form.sw.value)+mH);
 }
 
 function sArray(TargetString){
