@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8" />
-<title>window size adjuster</title>
+<title>responsive window size</title>
 <meta name="robots" content="INDEX, FOLLOW" />
 <meta name="author" content="Kyo ICHIDA" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0" />
@@ -38,6 +38,8 @@ form{position:absolute; z-index:9; left:0; top:0; margin:25px; padding:16px; bac
 <div style="width:640px;height:480px;"><span>VGA 640,480</span></div>
 <div style="width:736px;height:414px;"><span>iPhone6 Plus 736,414</span></div>
 <div style="width:667px;height:375px;"><span>iPhone6 667,375</span></div>
+<div style="width:410px;height:730px;"><span>Android 410,730</span></div>
+<div style="width:360px;height:640px;"><span>Android 360,640</span></div>
 <div style="width:320px;height:568px;"><span>iPhone5 320,568</span></div>
 <div style="width:320px;height:356px;"><span>iPhone3 Safari 320,356</span></div>
 <div style="width:320px;height:480px;"><span>HVGA (Half-VGA iPhone1, Android1 vertical) 320,480</span></div>
@@ -45,11 +47,14 @@ form{position:absolute; z-index:9; left:0; top:0; margin:25px; padding:16px; bac
 <form name="winsize" method="post">
 <h1>window size adjuster</h1>
 
-Width <input name="sw" type="text" size="10">, <button onClick="flipSize(this.form);return false;">&hArr;</button> Height <input name="sh" type="text" size="10">&nbsp;<input type="submit" onClick="drawRec(this.form);return" value="Resize" /><br />
+Width&nbsp;<input name="sw" type="text" size="10">, <button onClick="flipSize(this.form);return">&hArr;</button> Height&nbsp;<input name="sh" type="text" size="10"><br />
 
-Preset&nbsp;<select name="resize" onchange="changesize(value);">
+Preset&nbsp;<select name="resize" onChange="changeTsize(value, this.form);">
 <script type="text/javascript">document.write('<option>' + document.documentElement.clientWidth + ',' + document.documentElement.clientHeight + '</option>');</script>
 <option>320,356</option>
+<option>360,640</option>
+<option>410,730</option>
+<option>414,736</option>
 <option>480,320</option>
 <option>500,500</option>
 <option>568,320</option>
@@ -67,6 +72,10 @@ Preset&nbsp;<select name="resize" onchange="changesize(value);">
 <option>1920,1080</option>
 <option>2048,1536</option>
 </select>
+
+<input type="submit" onClick="drawRec(this.form);return" value="Resize" />
+
+<small><a href="#" onclick="window.open(this.location.href,this.target);return false;" target="_blank">Open new window</a></small>
 </form>
 
 <script type="text/javascript">
@@ -99,11 +108,13 @@ function sArray(TargetString){
 	return(resArray);
 }
 
-function changesize(v){
+function changeTsize(v,form){
 //	alert("v = " + v);
 //	s = "window.resizeTo(" + v + ")";
 //	parseInt(s);/* easy way */
 
+	form.sw.value = parseInt(sArray(v)[0]);
+	form.sh.value = parseInt(sArray(v)[1]);
 	window.resizeTo(parseInt(sArray(v)[0])+mW,parseInt(sArray(v)[1])+mH);
 }
 </script>
